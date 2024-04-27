@@ -1,0 +1,14 @@
+dist/
+.eslintrc.json
+.pretterignore
+.prettierrc.json
+package-lock.json
+package.json
+tsconfig.json
+docs
+README.md
+typedoc.json
+.mocharc.json
+coverage
+.github
+db/
