@@ -31,7 +31,7 @@ const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
         throw new Error('Price must be a positive number');
       }
     }
-  }
+  },
 });
 
 export const Furniture= model<FurnitureDocumentInterface>('Furniture', FurnitureSchema);

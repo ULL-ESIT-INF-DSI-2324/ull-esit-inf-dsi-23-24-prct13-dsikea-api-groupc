@@ -9,7 +9,7 @@ import { Error as CallbackError } from 'mongoose';
  */
 interface TransactionDocumentInterface extends Document {
   participantId: ProviderDocumentInterface | CustomerDocumentInterface; // Puede ser el ID de un cliente o un proveedor
-  transactionType: 'purchase' | 'sale';
+  transactionType: 'purchase' | 'sale' | 'providerReturn' | 'customerReturn';
   dateTime: Date;
   totalAmount: number;
   details?: string;
@@ -23,7 +23,7 @@ export const TransactionSchema = new Schema<TransactionDocumentInterface>({
   }, // ID del cliente o proveedor
   transactionType: { 
     type: String, 
-    enum: ['purchase', 'sale'], 
+    enum: ['purchase', 'sale', 'providerReturn', 'customerReturn'], 
     required: true 
   },
   dateTime: { 

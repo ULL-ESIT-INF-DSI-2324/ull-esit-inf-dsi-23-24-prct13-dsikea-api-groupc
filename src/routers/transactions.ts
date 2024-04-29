@@ -1,6 +1,9 @@
 import express from 'express';
 import '../db/mongoose.js';
 import { Transaction } from '../models/transaction.js';
+import { Customer } from '../models/customer.js';
+import { Furniture } from '../models/furniture.js';
+import { Provider } from '../models/provider.js';
 
 export const transactionRouter = express.Router();
 
@@ -33,7 +36,23 @@ transactionRouter.get('/transactions/:id', async (req, res) => {
 
 transactionRouter.post('/transactions', async (req, res) => {
   // Validate if the participantId exists
+  const participantExists = await Customer.findById(req.body.participantId) || await Provider.findById(req.body.participantId);
+  if (!participantExists) {
+    return res.status(404).send({ error: 'Participant not found' });
+  }
+
+  // Check if each furniture ID exists in the database
+  const { furniture } = req.body.furniture;
+  for (let i = 0; i < furniture.length; i++) {
+    const furnitureItem = await Furniture.findById(furniture[i]);
+
+    if (!furnitureItem) {
+      return res.status(404).send({ error: `Furniture item with ID ${furniture[i]} not found` });
+    }
+  }
+
   const transactionRouter = new Transaction(req.body);
+
   try {
     await transactionRouter.save();
     return res.status(201).send(transactionRouter);
