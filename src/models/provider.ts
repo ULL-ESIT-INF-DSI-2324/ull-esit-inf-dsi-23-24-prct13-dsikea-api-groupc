@@ -1,4 +1,5 @@
 import { Document, Schema, model } from 'mongoose';
+import { FurnitureDocumentInterface } from './furniture.js';
 import validator from 'validator';
 
 export interface ProviderDocumentInterface extends Document {
@@ -6,6 +7,7 @@ export interface ProviderDocumentInterface extends Document {
   cif: string,
   email?: string,
   mobilePhone?: number,
+  furniture?: FurnitureDocumentInterface[],
 }
 
 const ProviderSchema = new Schema<ProviderDocumentInterface>({
@@ -43,6 +45,10 @@ const ProviderSchema = new Schema<ProviderDocumentInterface>({
 			}
     }
   },
+  furniture: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Furniture'
+	}]
 });
 
 export const Provider = model<ProviderDocumentInterface>('Provider', ProviderSchema);
