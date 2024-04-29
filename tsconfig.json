@@ -1,15 +1,14 @@
 {
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test"
-  ],
   "compilerOptions": {
-    "target": "es2022",
-    "module": "node16",
+    "target": "ES2022",
+    "module": "Node16",
     "rootDir": "./src",
-    "declaration": true,
     "outDir": "./dist",
-    "strict": true
-  }
+    "types": ["mocha", "node"],
+    "sourceMap": true,
+    // "noImplicitAny": true,
+    "strictNullChecks": true,
+    // "noImplicitReturns": true
+  },
+  "exclude": ["./tests", "./node_modules", "./dist"]
 }

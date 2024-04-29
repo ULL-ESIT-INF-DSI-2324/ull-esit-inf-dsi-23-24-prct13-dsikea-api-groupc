@@ -32,6 +32,7 @@ transactionRouter.get('/transactions/:id', async (req, res) => {
 });
 
 transactionRouter.post('/transactions', async (req, res) => {
+  // Validate if the participantId exists
   const transactionRouter = new Transaction(req.body);
   try {
     await transactionRouter.save();

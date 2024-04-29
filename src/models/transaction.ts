@@ -51,7 +51,7 @@ TransactionSchema.pre<TransactionDocumentInterface>('save', async function(next)
     const totalAmount = furnitureDocs.reduce((acc, furniture) => acc + furniture.price, 0);
     this.totalAmount = totalAmount;
     next();
-  } catch (error) { // Utilizar 'error: any' para permitir cualquier tipo de error
+  } catch (error) { 
     next(error as CallbackError);
   }
 });

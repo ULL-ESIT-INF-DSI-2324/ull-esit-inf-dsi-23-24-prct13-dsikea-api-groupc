@@ -1,5 +1,4 @@
-import { Document, connect, model, Schema } from 'mongoose';
-import validator from 'validator';
+import { Document, model, Schema } from 'mongoose';
 
 export interface FurnitureDocumentInterface extends Document {
   name: string,
