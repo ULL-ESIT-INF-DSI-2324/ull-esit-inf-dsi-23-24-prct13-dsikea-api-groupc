@@ -5,15 +5,7 @@ import { Transaction } from '../models/transaction.js';
 export const transactionRouter = express.Router();
 
 transactionRouter.get('/transactions', async (req, res) => {
-  if (req.query.cif && req.query.nif) {
-    return res.status(400).send({ error: 'Only one query parameter allowed' });
-  }
-  let filter = {};
-  if (req.query.cif) {
-    filter = req.query.cif?{cif: req.query.cif.toString()}:{};
-  } else if (req.query.nif) {
-    filter = req.query.nif?{nif: req.query.nif.toString()}:{};
-  }
+  const filter = req.query.participantId?{participantId: req.query.participantId.toString()}:{};
   try {
     const participant= await Transaction.find(filter);
   
@@ -71,7 +63,7 @@ transactionRouter.delete('/transactions', async (req, res) => {
 
 transactionRouter.patch('/transactions/:id', async (req, res) => {
   const updates = Object.keys(req.body);
-  const allowedUpdates = ['cif', 'nif', 'amount', 'date', 'description', 'furniture'];
+  const allowedUpdates = ['date', 'details', 'furniture'];
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
   if (!isValidOperation) {
     return res.status(400).send({ error: 'Invalid updates!' });

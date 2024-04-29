@@ -2,8 +2,7 @@ import { Document, Schema, model } from 'mongoose';
 import { FurnitureDocumentInterface } from './furniture.js';
 import { CustomerDocumentInterface } from './customer.js';
 import { ProviderDocumentInterface } from './provider.js';
-import validator from 'validator';
-
+import { Error as CallbackError } from 'mongoose';
 
 /**
  * @brief Interface to represent the Transaction model
@@ -33,7 +32,7 @@ export const TransactionSchema = new Schema<TransactionDocumentInterface>({
   },
   totalAmount: { 
     type: Number, 
-    required: true 
+    default: 0
   },
   details: { 
     type: String 
@@ -43,6 +42,18 @@ export const TransactionSchema = new Schema<TransactionDocumentInterface>({
     ref: 'Furniture', 
     required: true 
   }],
+});
+
+// Hook pre-save para calcular el totalAmount basado en los precios de los muebles
+TransactionSchema.pre<TransactionDocumentInterface>('save', async function(next) {
+  try {
+    const furnitureDocs = await this.model('Furniture').find({ _id: { $in: this.furniture } }) as FurnitureDocumentInterface[];
+    const totalAmount = furnitureDocs.reduce((acc, furniture) => acc + furniture.price, 0);
+    this.totalAmount = totalAmount;
+    next();
+  } catch (error) { // Utilizar 'error: any' para permitir cualquier tipo de error
+    next(error as CallbackError);
+  }
 });
 
 export const Transaction = model<TransactionDocumentInterface>('Transaction', TransactionSchema);
