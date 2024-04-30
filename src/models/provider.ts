@@ -7,7 +7,10 @@ export interface ProviderDocumentInterface extends Document {
   cif: string,
   email?: string,
   mobilePhone?: number,
-  furniture?: FurnitureDocumentInterface[],
+  furniture: Array<{
+    furnitureId: FurnitureDocumentInterface;
+    quantity: number;
+  }>;
 }
 
 const ProviderSchema = new Schema<ProviderDocumentInterface>({
@@ -46,9 +49,14 @@ const ProviderSchema = new Schema<ProviderDocumentInterface>({
     }
   },
   furniture: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Furniture'
-	}]
+    furnitureId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Furniture',
+    },
+    quantity: {
+      type: Number,
+    }
+  }],
 });
 
 export const Provider = model<ProviderDocumentInterface>('Provider', ProviderSchema);

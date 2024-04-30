@@ -12,7 +12,8 @@ const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true, 
+    unique: true,
   },
   description: {
     type: String,
