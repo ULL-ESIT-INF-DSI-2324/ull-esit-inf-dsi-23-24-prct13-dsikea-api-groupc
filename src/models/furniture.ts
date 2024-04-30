@@ -5,6 +5,7 @@ export interface FurnitureDocumentInterface extends Document {
   description: string,
   color: 'blue' | 'green' | 'red' | 'yellow' | 'magenta',
   price: number,
+  stock: number,
 }
 
 const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
@@ -32,6 +33,10 @@ const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
       }
     }
   },
+  stock: {
+    type: Number,
+    default: 1,
+  }
 });
 
 export const Furniture= model<FurnitureDocumentInterface>('Furniture', FurnitureSchema);

@@ -35,6 +35,7 @@ transactionRouter.get('/transactions/:id', async (req, res) => {
 });
 
 transactionRouter.post('/transactions', async (req, res) => {
+  
   // Validate if the participantId exists
   const participantExists = await Customer.findById(req.body.participantId) || await Provider.findById(req.body.participantId);
   if (!participantExists) {
@@ -59,6 +60,7 @@ transactionRouter.post('/transactions', async (req, res) => {
   } catch (error) {
     return res.status(500).send(error);
   }
+  
 });
 
 transactionRouter.delete('/transactions', async (req, res) => {

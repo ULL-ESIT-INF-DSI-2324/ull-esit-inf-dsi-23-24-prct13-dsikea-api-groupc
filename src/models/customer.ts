@@ -7,7 +7,7 @@ export interface CustomerDocumentInterface extends Document {
   nif: string,
   email?: string,
   mobilePhone?: number,
-	furniture?: FurnitureDocumentInterface[],
+	furniture?: [FurnitureDocumentInterface[], number],
 }
 
 const CustomerSchema = new Schema<CustomerDocumentInterface>({
@@ -46,9 +46,17 @@ const CustomerSchema = new Schema<CustomerDocumentInterface>({
     }
   },
 	furniture: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Furniture'
-	}]
+    furnitureId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Furniture',
+      required: true
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+      required: true
+    }
+  }],
 });
 
 export const Customer = model<CustomerDocumentInterface>('Customer', CustomerSchema);
