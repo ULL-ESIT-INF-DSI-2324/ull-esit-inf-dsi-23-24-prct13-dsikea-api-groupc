@@ -160,12 +160,10 @@ transactionRouter.delete('/transactions', async (req, res) => {
         error: "Transaction not found"
       });
     }
-
     return res.status(404).send();
   } catch (error) {
     return res.status(500).send(error);
   }
-
 });
 
 
