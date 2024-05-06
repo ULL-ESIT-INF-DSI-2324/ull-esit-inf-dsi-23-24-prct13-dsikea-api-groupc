@@ -8,12 +8,19 @@ import { Provider } from '../models/provider.js';
 export const transactionRouter = express.Router();
 
 transactionRouter.get('/transactions', async (req, res) => {
-  const filter = req.query.participantId?{participantId: req.query.participantId.toString()}:{};
+  let filter = {};
+  if (req.query.nif) {
+    filter = {participantId: req.query.nif.toString()};
+  } else if (req.query.cif) {
+    filter = {participantId: req.query.cif.toString()};
+  }
+  
   try {
-    const participant= await Transaction.find(filter);
+    
+    const participant = await Transaction.find(filter);
   
     if (participant.length !== 0) {
-      return res.send(participant);
+      return res.status(200).send(participant);
     }
     return res.status(404).send();
   } catch (error) {
@@ -22,9 +29,9 @@ transactionRouter.get('/transactions', async (req, res) => {
 });
 
 transactionRouter.get('/transactions/:id', async (req, res) => {
-  const _id = req.params.id;
   try {
-    const transaction = await Transaction.findOne({ _id });
+    const transaction = await Transaction.findById(req.params.id);
+    console
     if (transaction) {
       return res.send(transaction);
     }
@@ -141,8 +148,8 @@ transactionRouter.post('/transactions', async (req, res) => {
   
 });
 
-transactionRouter.delete('/transactions', async (req, res) => {
-  const filter = req.query.id?{id: req.query.id.toString()}:{};
+transactionRouter.delete('/transactions/:id', async (req, res) => {
+  const filter = req.params.id?{id: req.params.id.toString()}:{};
 
   try {
     const transaction = await Transaction.findById(filter.id);

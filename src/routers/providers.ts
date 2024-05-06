@@ -88,7 +88,7 @@ providerRouter.patch('/providers', async (req, res) => {
 });
 
 providerRouter.patch('/providers/:id', async (req, res) => {
-  const allowedUpdates = ['name', 'email', 'mobilePhone', 'furniture'];
+  const allowedUpdates = ['name', 'email', 'mobilePhone'];
   const actualUpdates = Object.keys(req.body);
   const isValidUpdate = actualUpdates.every((update) => allowedUpdates.includes(update));
 
@@ -123,19 +123,9 @@ providerRouter.delete('/providers', async (req, res) => {
       return res.status(404).send({
         error: "Provider not found"
       });
+    } else {
+      return res.status(200).send(provider);
     }
-    
-    const furniture = await Provider.findOneAndDelete({
-      _id: req.query.id
-    }).populate({
-      path: 'owner',
-      select: ['cif']
-    });
-
-    if (furniture) {
-      return res.send(furniture);
-    }
-    return res.status(404).send();
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -148,19 +138,9 @@ providerRouter.delete('/providers/:id', async (req, res) => {
       return res.status(404).send({
         error: "Provider not found"
       });
+    } else {
+      return res.status(200).send(provider);
     }
-    
-    const furniture = await Provider.findOneAndDelete({
-      _id: req.query.id
-    }).populate({
-      path: 'owner',
-      select: ['cif']
-    });
-
-    if (furniture) {
-      return res.send(furniture);
-    }
-    return res.status(404).send();
   } catch (error) {
     return res.status(500).send(error);
   }

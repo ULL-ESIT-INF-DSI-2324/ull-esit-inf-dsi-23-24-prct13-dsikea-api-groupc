@@ -121,7 +121,7 @@ furnitureRouter.delete('/furnitures', async (req, res) => {
   try {
     const furnitures = await Furniture.findOneAndDelete(req.query);
     if (furnitures) {
-      res.status(204).send(furnitures);
+      res.status(200).send(furnitures);
     } else {
       res.status(404).send('Furniture not found');
     }
@@ -134,7 +134,7 @@ furnitureRouter.delete('/furnitures/:id', async (req, res) => {
   try {
     const furniture = await Furniture.findByIdAndDelete(req.params.id);
     if (furniture) {
-      res.status(204).send(furniture);
+      res.status(200).send(furniture);
     } else {
       res.status(404).send('Furniture not found');
     }

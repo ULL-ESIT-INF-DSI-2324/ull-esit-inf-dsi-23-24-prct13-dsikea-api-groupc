@@ -1,12 +1,7 @@
 import request from 'supertest';
-import { Customer } from '../src/models/customer.js'
+import { Customer } from '../src/models/customer.js';
+import { Furniture } from '../src/models/furniture.js';
 import { app } from '../src/index.js';
-
-// const firstCustomer = {
-//   name: "Adrian Lima",
-//   nif: "24770104R",
-//   email: "adrilgrc@example.com"
-// }
 
 const firstCustomer = {
   name: "carlos",
@@ -18,6 +13,21 @@ const firstCustomer = {
 const secondCustomer = {
   name: "mariana",
   nif: "12345678A",
+}
+
+const firstFurniture = {
+  name: "sofa",
+  description: "sofa de 3 plazas",
+  color: "red",
+  price: 500,
+  stock: 10
+}
+
+const secondFurniture = {
+  name: "mesa",
+  description: "mesa de madera",
+  price: 200,
+  stock: 5
 }
 
 beforeEach(async () => {
@@ -217,25 +227,44 @@ describe('CUSTOMERS', () => {
   });
 
   context('DELETE /customers', () => {
-    // it('Should delete a user', async () => {
-    //   const newCustomer = await new Customer(firstCustomer).save();
-    //   await request(app)
-    //     .delete('/customers')
-    //     .query({ nif: newCustomer.nif })
-    //     .expect(200);
-    // });
+    it('Should delete a user', async () => {
+      const newCustomer = await new Customer(firstCustomer).save();
+      await request(app)
+        .delete('/customers')
+        .query({ nif: newCustomer.nif })
+        .expect(200);
+    });
     it('Should not delete a non existent user', async () => {
       await request(app)
         .delete('/customers')
         .query({ nif: '12345678A' })
         .expect(404);
     });
-    // it('Should delete a user', async () => {
-    //   const newCustomer = await new Customer(secondCustomer).save();
-    //   await request(app)
-    //     .delete('/customers')
-    //     .query({ nif: newCustomer.nif })
-    //     .expect(200);
-    // });
+    it('Should delete a user', async () => {
+      const newCustomer = await new Customer(secondCustomer).save();
+      await request(app)
+        .delete('/customers')
+        .query({ nif: newCustomer.nif })
+        .expect(200);
+    });
+    it('Should delete a user by id', async () => {
+      const newCustomer = await new Customer(secondCustomer).save();
+      await request(app)
+        .delete(`/customers/${newCustomer._id}`)
+        .expect(200);
+    });
+    it('Should not delete a non existent user', async () => {
+      await request(app)
+        .delete('/customers/60d4d4c5e6b8f1b1d4b2b3b5')
+        .expect(404);
+    });
+    it('Should delete a customer with furnitures', async() => {
+      const newCustomer = await new Customer(firstCustomer).save();
+      const newFurniture = await new Furniture(firstFurniture).save();
+      newCustomer.furniture.push({ furnitureId: newFurniture._id, quantity: 2 });
+      await request(app)
+        .delete(`/customers/${newCustomer._id}`)
+        .expect(200);
+    });
   });
 });

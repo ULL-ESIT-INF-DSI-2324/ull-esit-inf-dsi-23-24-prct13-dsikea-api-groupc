@@ -22,7 +22,7 @@ export const TransactionSchema = new Schema<TransactionDocumentInterface>({
   participantId: { 
     type: Schema.Types.ObjectId, 
     required: true 
-  }, // ID del cliente o proveedor
+  }, 
   transactionType: { 
     type: String, 
     enum: ['Sale To Customer', 'Purchase To Provider', 'Return To Provider', 'Return From Customer'], 

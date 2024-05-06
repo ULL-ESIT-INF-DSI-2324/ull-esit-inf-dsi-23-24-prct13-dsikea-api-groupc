@@ -168,13 +168,13 @@ describe('FURNITURES', () => {
   context('DELETE /furnitures', () => {
     it('Should successfully delete a furniture', async () => {
       const newFurniture = await new Furniture(secondFurniture).save();
-      await request(app).delete(`/furnitures/${newFurniture._id}`).expect(204);
+      await request(app).delete(`/furnitures/${newFurniture._id}`).expect(200);
     });
     it('Should not delete a furniture. Invalid id', async () => {
       await request(app).delete('/furnitures/123').expect(500);
     });
     it('Should delete the first furniture', async () => {
-      await request(app).delete(`/furnitures?name=${firstFurniture.name}`).expect(204);
+      await request(app).delete(`/furnitures?name=${firstFurniture.name}`).expect(200);
     });
     it('Should not delete a furniture. Bad use: Invalid name', async () => {
       await request(app).delete('/furnitures?name=Table').expect(404);
@@ -186,19 +186,19 @@ describe('FURNITURES', () => {
       await request(app).delete('/furnitures?description=Wooden chair').expect(400);
     });
     it('Should not delete a furniture by name and color', async () => {
-      await request(app).delete('/furnitures?name=Chair&color=blue').expect(204);
+      await request(app).delete('/furnitures?name=Chair&color=blue').expect(200);
     });
     it('Should not delete a furniture by name and description', async () => {
-      await request(app).delete('/furnitures?name=Chair&description=Wooden chair').expect(204);
+      await request(app).delete('/furnitures?name=Chair&description=Wooden chair').expect(200);
     });
     it('Should not delete a furniture by description and color', async () => {
       await request(app).delete('/furnitures?description=Wooden chair&color=blue').expect(400);
     });
     it('Should not delete a furniture by name, description and color', async () => {
-      await request(app).delete('/furnitures?name=Chair&description=Wooden chair&color=blue').expect(204);
+      await request(app).delete('/furnitures?name=Chair&description=Wooden chair&color=blue').expect(200);
     });
     it('Should delete the first furniture', async () => {
-      await request(app).delete(`/furnitures?name=${firstFurniture.name}`).expect(204);
+      await request(app).delete(`/furnitures?name=${firstFurniture.name}`).expect(200);
     });
   });
 });

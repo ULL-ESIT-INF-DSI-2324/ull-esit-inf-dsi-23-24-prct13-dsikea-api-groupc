@@ -186,17 +186,28 @@ describe('PROVIDERS', () => {
   });
 
   context('DELETE /providers', () => {
-    // it('Should delete a provider', async () => {
-    //   const newProvider = await new Provider(secondProvider).save();
-    //   await request(app)
-    //     .delete('/providers')
-    //     .query({ cif: newProvider.cif })
-    //     .expect(200);
-    // });
+    it('Should delete a provider', async () => {
+      const newProvider = await new Provider(secondProvider).save();
+      await request(app)
+        .delete('/providers')
+        .query({ cif: newProvider.cif })
+        .expect(200);
+    });
     it('Should not delete a non existent provider', async () => {
       await request(app)
         .delete('/providers')
         .query({ cif: '12345678A' })
+        .expect(404);
+    });
+    it('Should delete a provider', async () => {
+      const newProvider = await new Provider(secondProvider).save();
+      await request(app)
+        .delete('/providers/' + newProvider._id)
+        .expect(200);
+    });
+    it('Should not delete a non existent provider', async () => {
+      await request(app)
+        .delete('/providers/60d4d4c5e6b8f1b1d4b2b3b5')
         .expect(404);
     });
   });

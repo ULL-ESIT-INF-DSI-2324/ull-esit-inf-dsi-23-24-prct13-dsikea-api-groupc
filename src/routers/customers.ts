@@ -1,5 +1,6 @@
 import { Customer } from "../models/customer.js";
 import express from 'express';
+import { Furniture } from "../models/furniture.js";
 
 export const customerRouter = express.Router();
 
@@ -117,26 +118,16 @@ customerRouter.delete('/customers', async (req, res) => {
   const filter = req.query.nif?{nif: req.query.nif.toString()}:{};
 
   try {
-    const customer = await Customer.findOne(filter);
+    const customer = await Customer.findOneAndDelete(filter);
 
     if (!customer) {
       return res.status(404).send({
         error: "Customer not found"
       });
+    } else {
+      return res.status(200).send(customer);
     }
-    
-    const furniture = await Customer.findOneAndDelete({
-      // owner: customer._id,
-      _id: req.query.id
-    }).populate({
-      path: 'owner',
-      select: ['nif']
-    });
 
-    if (furniture) {
-      return res.send(furniture);
-    }
-    return res.status(404).send();
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -144,26 +135,15 @@ customerRouter.delete('/customers', async (req, res) => {
 
 customerRouter.delete('/customers/:id', async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.id);
-
+    const customer = await Customer.findByIdAndDelete(req.params.id);
     if (!customer) {
       return res.status(404).send({
         error: "Customer not found"
       });
+    } else {
+      return res.status(200).send(customer);
     }
     
-    const furniture = await Customer.findOneAndDelete({
-      // owner: customer._id,
-      _id: req.query.id
-    }).populate({
-      path: 'owner',
-      select: ['nif']
-    });
-
-    if (furniture) {
-      return res.send(furniture);
-    }
-    return res.status(404).send();
   } catch (error) {
     return res.status(500).send(error);
   }
