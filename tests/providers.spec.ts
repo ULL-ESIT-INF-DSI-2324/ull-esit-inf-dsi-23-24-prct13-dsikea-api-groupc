@@ -4,14 +4,14 @@ import { app } from "../src/index.js";
 
 const firstProvider = {
   name: "juan carlos",
-  cif: "20086250Z",
+  cif: "H74428350",
   email: "juanca@example.com",
   mobilePhone: "123456789"
 };
 
 const secondProvider = {
   name: "carmen",
-  cif: "12345678A"
+  cif: "D48270375"
 };
 
 beforeEach(async () => {
@@ -23,7 +23,7 @@ describe('PROVIDERS', () => {
 
   context('GET /providers', () => {
     it('Should get a user by cif', async () => {
-      await request(app).get('/providers?cif=20086250Z').expect(200);
+      await request(app).get('/providers?cif=H74428350').expect(200);
     });
     it('Should get a user by id', async () => {
       const newProvider = await new Provider(secondProvider).save();
@@ -44,7 +44,7 @@ describe('PROVIDERS', () => {
     });
     it('Should get an user by cif', async () => {
       await new Provider(secondProvider).save();
-      await request(app).get('/providers?cif=12345678A').expect(200);
+      await request(app).get('/providers?cif=D48270375').expect(200);
     });
     it('Should get an user by id', async () => {
       const newProvider = await new Provider(secondProvider).save();
@@ -55,7 +55,7 @@ describe('PROVIDERS', () => {
       await request(app).get(`/providers/${newProvider._id}`).expect(200);
     });
     it('Should not find an user by username', async () => {
-      await request(app).get('/providers?cif=12345678A').expect(404);
+      await request(app).get('/providers?cif=D48270375').expect(404);
     });
   });
   context('POST /providers', () => {
@@ -126,13 +126,13 @@ describe('PROVIDERS', () => {
   context('PATCH /providers', () => {
     it('Should update a provider', async () => {
       await request(app)
-        .patch('/providers?cif=20086250Z')
+        .patch('/providers?cif=H74428350')
         .send({ name: 'carlos' })
         .expect(200);
     });
     it('Should not update a provider', async () => {
       await request(app)
-        .patch('/providers?cif=12345678A')
+        .patch('/providers?cif=D48270375')
         .send({ name: 'mariana' })
         .expect(404);
     });
@@ -152,13 +152,13 @@ describe('PROVIDERS', () => {
     it('Should not update a non allowed field', async () => {
       await request(app)
         .patch('/providers')
-        .send({ cif: '12345678A' })
+        .send({ cif: 'D48270375' })
         .expect(400);
     });
     it('Should not update a non existent provider', async () => {
       await request(app)
         .patch('/providers')
-        .send({ cif: '12345678A' })
+        .send({ cif: 'D48270375' })
         .expect(400);
     });
     it('Should not update a non allowed field', async () => {
@@ -196,7 +196,7 @@ describe('PROVIDERS', () => {
     it('Should not delete a non existent provider', async () => {
       await request(app)
         .delete('/providers')
-        .query({ cif: '12345678A' })
+        .query({ cif: 'D48270375' })
         .expect(404);
     });
     it('Should delete a provider', async () => {

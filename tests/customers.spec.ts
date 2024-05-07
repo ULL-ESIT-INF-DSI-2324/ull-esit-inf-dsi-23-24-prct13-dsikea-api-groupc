@@ -5,14 +5,14 @@ import { app } from '../src/index.js';
 
 const firstCustomer = {
   name: "carlos",
-  nif: "20086250Z",
+  nif: "69360171Z",
   furniture: [  
   ]
 }
 
 const secondCustomer = {
   name: "mariana",
-  nif: "12345678A",
+  nif: "49642642V",
 }
 
 const firstFurniture = {
@@ -40,7 +40,7 @@ describe('CUSTOMERS', () => {
   context('GET /customers', () => {
     it('Should get a user by nif', async () => {
       await new Customer(firstCustomer).save();
-      await request(app).get('/customers?nif=20086250Z').expect(200);
+      await request(app).get('/customers?nif=69360171Z').expect(200);
     });
     it('Should get a user by id', async () => {
       const newCustomer = await new Customer(firstCustomer).save();
@@ -62,7 +62,7 @@ describe('CUSTOMERS', () => {
     });
     it('Should get an user by nif', async () => {
       await new Customer(secondCustomer).save();
-      await request(app).get('/customers?nif=12345678A').expect(200);
+      await request(app).get('/customers?nif=49642642V').expect(200);
     });
     it('Should get an user by id', async () => {
       const newCustomer = await new Customer(secondCustomer).save();
@@ -73,7 +73,7 @@ describe('CUSTOMERS', () => {
       await request(app).get(`/customers/${newCustomer._id}`).expect(200);
     });
     it('Should not find an user by username', async () => {
-      await request(app).get('/customers?nif=12345678A').expect(404);
+      await request(app).get('/customers?nif=49642642V').expect(404);
     });
   });
 
@@ -147,7 +147,7 @@ describe('CUSTOMERS', () => {
     it('Should not update a non existent user', async () => {
       await request(app)
         .patch('/customers')
-        .query({ nif: '12345678A' })
+        .query({ nif: '49642642V' })
         .send({
           email: 'newemail@example.com'
         }).expect(404);
@@ -167,7 +167,7 @@ describe('CUSTOMERS', () => {
         .patch('/customers')
         .query({ nif: newCustomer.nif })
         .send({
-          nif: '12345678A'
+          nif: '49642642V'
         }).expect(400);
     });
     it('Should update the name of a user', async () => {
@@ -237,7 +237,7 @@ describe('CUSTOMERS', () => {
     it('Should not delete a non existent user', async () => {
       await request(app)
         .delete('/customers')
-        .query({ nif: '12345678A' })
+        .query({ nif: '49642642V' })
         .expect(404);
     });
     it('Should delete a user', async () => {

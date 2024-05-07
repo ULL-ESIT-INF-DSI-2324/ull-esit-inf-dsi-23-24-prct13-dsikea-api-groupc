@@ -2,6 +2,25 @@ import { Document, Schema, model } from 'mongoose';
 import { FurnitureDocumentInterface } from './furniture.js';
 import validator from 'validator';
 
+function calculateNIFLetter(nif) {
+  let cadena = "TRWAGMYFPDXBNJZSQVHLCKET";
+  nif = parseInt(nif);
+  let posicion = nif % (cadena.length - 1);
+  return cadena[posicion];
+}
+
+function validateSpanishNIF(value: string): boolean {
+  const validFormats = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i;
+  if (!validFormats.test(value)) {
+    return false;
+  }
+
+  const letterProvided = value.charAt(8).toUpperCase();
+  const numberPart = parseInt(value.substr(0, 8), 10);
+  const calculatedLetter = calculateNIFLetter(numberPart);
+  return letterProvided === calculatedLetter;
+}
+
 export interface CustomerDocumentInterface extends Document {
   name: string,
   nif: string,
@@ -25,9 +44,9 @@ const CustomerSchema = new Schema<CustomerDocumentInterface>({
     required: true,
     trim: true,
     validate(value: string) {
-      if (!validator.default.isLength(value, { min: 9, max: 9 })) {
-        throw new Error('NIF must have 9 characters');
-      }
+      if (!validateSpanishNIF(value)) {
+        throw new Error('NIF is not valid');
+      } 
     }
   },
   email: {

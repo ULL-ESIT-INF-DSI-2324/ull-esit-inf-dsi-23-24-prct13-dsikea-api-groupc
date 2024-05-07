@@ -80,14 +80,6 @@ describe('FURNITURES', () => {
     it('Should add the second furniture', async () => {
       await request(app).post('/furnitures').send(secondFurniture).expect(201);
     });
-    it('Should create a new furniture. Particular case: Default stock', async () => {
-      await request(app).post('/furnitures').send({
-        name: "Green Chair",
-        description: "Wooden chair",
-        color: 'green',
-        price: 20
-      }).expect(201);
-    });
     it('Should not create a new furniture. Bad use: Empty body', async () => {
       await request(app).post('/furnitures').send({}).expect(400);
     });

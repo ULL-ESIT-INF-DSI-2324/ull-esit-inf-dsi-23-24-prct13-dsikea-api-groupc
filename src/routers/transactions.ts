@@ -105,7 +105,11 @@ transactionRouter.post('/transactions', async (req, res) => {
           amount += furnitureItem!.price as number * furniture[i].quantity as number;
 
           await participantExists.save();
+          if (furnitureItem!.stock < furniture[i].quantity) {
+            return res.status(400).send({ error: `Furniture item with ID ${furniture[i]} is out of stock` });
+          }
           furnitureItem!.stock -= furniture[i].quantity as number;
+          // console.log("Furniture Item: ", furnitureItem);
           await furnitureItem!.save();
         }
       }
@@ -120,7 +124,8 @@ transactionRouter.post('/transactions', async (req, res) => {
         if (foundFurniture) {
           foundFurniture.quantity -= furniture[i].quantity;
         } else {
-          participantExists.furniture.push({ furnitureId: furnitureItem!._id, quantity: furniture[i].quantity });
+          // participantExists.furniture.push({ furnitureId: furnitureItem!._id, quantity: furniture[i].quantity });
+          return res.status(400).send({ error: `Provider is trying to sale a furniture (${furniture[i].name}) they do not have!` });
         }
         amount += furnitureItem!.price as number * furniture[i].quantity as number;
 
@@ -177,7 +182,7 @@ transactionRouter.delete('/transactions/:id', async (req, res) => {
         }
         for (let i = 0; i < furniture.length; i++) {
           const furnitureItem = await Furniture.findById(furniture[i].furnitureId);
-          const foundFurniture = participantExists.furniture.find(furniture => furniture.furnitureId.toString() === furnitureItem!._id.toString());
+          const foundFurniture = await participantExists.furniture.find(furniture => furniture.furnitureId.toString() === furnitureItem!._id.toString());
           if (foundFurniture) {
             foundFurniture.quantity -= furniture[i].quantity;
           } else {
@@ -196,12 +201,12 @@ transactionRouter.delete('/transactions/:id', async (req, res) => {
         for (let i = 0; i < furniture.length; i++) {
           const furnitureItem = await Furniture.findById(furniture[i].furnitureId);
          
-          const foundFurniture = participantExists.furniture.find(furniture => furniture.furnitureId.toString() === furnitureItem!._id.toString());
+          const foundFurniture = await participantExists.furniture.find(furniture => furniture.furnitureId.toString() === furnitureItem!._id.toString());
        
           if (foundFurniture) {
             foundFurniture.quantity += furniture[i].quantity;
           } else {
-            return res.status(400).send({ error: `Attempting to return a furniture (${furniture[i]}) the provider does not have!` });
+            return res.status(400).send({ error: `Attempting to return a furniture the provider does not have!` });
           }
           
           await participantExists.save();
@@ -240,7 +245,7 @@ transactionRouter.patch('/transactions/:id', async (req, res) => {
       });
   
       if (transaction) {
-        return res.send(transaction);
+        return res.status(200).send(transaction);
       }
 
       return res.status(404).send({ error: 'Transaction does not exist.'});

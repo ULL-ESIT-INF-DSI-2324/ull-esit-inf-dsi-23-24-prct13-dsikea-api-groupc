@@ -44,7 +44,6 @@ furnitureRouter.get('/furnitures', async (req, res) => {
 });
 
 furnitureRouter.get('/furnitures/:id', async (req, res) => {
-  console.log("ID: ", req.params.id);
   try {
     const furniture = await Furniture.findById(req.params.id);
     if (furniture) {
