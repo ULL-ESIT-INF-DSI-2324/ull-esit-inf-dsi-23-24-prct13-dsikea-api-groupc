@@ -69,6 +69,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit...
 
 ### [🧬] Modelos
 
+### Logica de rutas:
+En la actualizacion de muebles de un proveedor, implica que puede cambiar la cantidad de un existente, y si en furniture no existe el mueble lo creamos en el inventario con un stock a 0 y con la cantidad que tiene el provedor
+
 #### [👩] Cliente
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit...

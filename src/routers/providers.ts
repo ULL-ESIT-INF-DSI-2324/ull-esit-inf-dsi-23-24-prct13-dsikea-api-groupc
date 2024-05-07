@@ -88,9 +88,12 @@ providerRouter.patch('/providers', async (req, res) => {
 });
 
 providerRouter.patch('/providers/:id', async (req, res) => {
-  const allowedUpdates = ['name', 'email', 'mobilePhone'];
+  const allowedUpdates = ['name', 'email', 'mobilePhone', 'furniture'];
   const actualUpdates = Object.keys(req.body);
   const isValidUpdate = actualUpdates.every((update) => allowedUpdates.includes(update));
+
+  // Verifica que el stock si se cambia furniture sea 0
+
 
   if (!isValidUpdate) {
     return res.status(400).send({
@@ -103,6 +106,12 @@ providerRouter.patch('/providers/:id', async (req, res) => {
       new: true,
       runValidators: true
     });
+
+    // if(req.body.furniture.stock !== 0) {
+    //   return res.status(400).send({
+    //     error: 'Stock must be 0'
+    //   });
+    // }
 
     if (provider) {
       return res.send(provider);

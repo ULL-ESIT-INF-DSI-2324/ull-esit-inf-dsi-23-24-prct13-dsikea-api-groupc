@@ -36,7 +36,7 @@ const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
   },
   stock: {
     type: Number,
-    default: 1,
+    required: true,
   }
 });
 
