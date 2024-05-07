@@ -5,8 +5,12 @@
 - Adrián Lima García
 
 <p align="center">
-  <img src="https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc/badge.svg?branch=main" alt="Coverage Status">
-  <img src="https://github.com/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc/actions/workflows/node.js.yml/badge.svg" alt="Tests">
+  <a href="https://coveralls.io/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc?branch=main">
+    <img src="https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc/badge.svg?branch=main" alt="Coverage Status">
+  </a>
+  <a href="https://github.com/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc/actions/workflows/node.js.yml">
+    <img src="https://github.com/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc/actions/workflows/node.js.yml/badge.svg" alt="Tests">
+  </a>
   <img src="https://sonarcloud.io/api/project_badges/measure?project=ULL-ESIT-INF-DSI-2324_ull-esit-inf-dsi-23-24-prct13-dsikea-api-groupc&metric=alert_status" alt="Quality Gate Status">
 </p>
 
