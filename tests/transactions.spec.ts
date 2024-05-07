@@ -72,12 +72,22 @@ describe('TRANSACTIONS', () => {
   });
 
   context('GET /transactions', () => {
-    // it('should a transactions by id', async () => {
-    //   const customer = await Customer.findOne({name: CustomerOne.name});
-    //   const transaction = await Transaction.findOne();
-    //   console.log("TRANSACTION", transaction);
-    //   request(app).get(`/transactions/${transaction!._id}`).expect(200);
-    // });
+    it('should a transactions by id', async () => {
+      const customer = await new Customer(CustomerOne).save();
+      const furniture = await new Furniture(FurnitureOne).save();
+
+     
+      const transactionjson =  {
+        participantId :  customer._id,
+        transactionType: "Sale To Customer",
+        furniture: [{
+          furnitureId: furniture._id,
+          quantity: 2
+        }]
+      }
+      const transaction = await new Transaction(transactionjson);
+      request(app).get(`/transactions/${transaction!._id}`).expect(200);
+    });
     it('Should return transactions by type', async () => {
       request(app).get('/transactions?type=Sale To Customer').expect(200);
     });
