@@ -25,6 +25,13 @@ const CustomerSecond = {
   nif: "03708194L",
 }
 
+after(async () => {
+  await Customer.deleteMany();
+  await Provider.deleteMany();
+  await Furniture.deleteMany();
+  await Transaction.deleteMany();
+});
+
 describe('WORKFLOWS', () => {
   let newProvider;
   let newCustomer;
