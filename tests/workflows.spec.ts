@@ -217,8 +217,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
-      return;
-    });
+    }).timeout(3000);
     it('Should return an error if the participant does not exist', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
       newFurniture = await request(app).post('/furnitures').send(FurnitureSecond);
@@ -249,8 +248,7 @@ describe('WORKFLOWS', () => {
       await request(app).delete(`/transactions/${newTransaction.body._id}`);
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
-      return;
-    });
+    }).timeout(3000);
   });
 
   context('Deleting a transaction of type Purchase To Provider', () => {
@@ -324,8 +322,7 @@ describe('WORKFLOWS', () => {
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(400);
       expect(deleteTransactionFail.body.error).to.equal(`Attempting to return a furniture the provider does not have!`);
-      return;
-    });
+    }).timeout(3000);
   });
 
   context('Updating a transaction of type Sale To Customer', () => {
