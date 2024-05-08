@@ -4,6 +4,12 @@ import { Furniture } from "../models/furniture.js";
 
 export const customerRouter = express.Router();
 
+/**
+ * Method to get a specific customer by nif or id
+ * @param nif - The nif of the customer
+ * @param id - The id of the customer
+ * @returns - The customer found
+ */
 customerRouter.get('/customers', async (req, res) => {
   let filter = {};
 
@@ -29,6 +35,10 @@ customerRouter.get('/customers', async (req, res) => {
   }
 });
 
+/**
+ * Method to get a specific customer by id
+ * @param id - The id of the customer
+ */
 customerRouter.get('/customers/:id', async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id);
@@ -42,6 +52,10 @@ customerRouter.get('/customers/:id', async (req, res) => {
   }
 });
 
+/**
+ * Method to create a new customer
+ * @param customer - The customer to be created
+ */
 customerRouter.post('/customers', async (req, res) => {
   const customer = new Customer(req.body);
   try {
@@ -52,6 +66,12 @@ customerRouter.post('/customers', async (req, res) => {
   }
 });
 
+/**
+ * Method to update a customer by nif or id
+ * @param nif - The nif of the customer
+ * @param id - The id of the customer
+ * @param customer - The customer to be updated
+ */
 customerRouter.patch('/customers', async (req, res) => {
   if (!req.query.nif) {
     return res.status(400).send({
@@ -88,6 +108,11 @@ customerRouter.patch('/customers', async (req, res) => {
   }
 });
 
+/**
+ * Method to update a customer by id
+ * @param id - The id of the customer
+ * @param customer - The customer to be updated
+ */
 customerRouter.patch('/customers/:id', async (req, res) => {
   const allowedUpdates = ['name', 'email', 'mobilePhone'];
   const actualUpdates = Object.keys(req.body);
@@ -114,6 +139,11 @@ customerRouter.patch('/customers/:id', async (req, res) => {
   }
 });
 
+/**
+ * Method to delete a customer by nif or id
+ * @param nif - The nif of the customer
+ * @param id - The id of the customer
+ */
 customerRouter.delete('/customers', async (req, res) => {
   const filter = req.query.nif?{nif: req.query.nif.toString()}:{};
 
@@ -133,6 +163,10 @@ customerRouter.delete('/customers', async (req, res) => {
   }
 });
 
+/**
+ * Method to delete a customer by id
+ * @param id - The id of the customer
+ */
 customerRouter.delete('/customers/:id', async (req, res) => {
   try {
     const customer = await Customer.findByIdAndDelete(req.params.id);

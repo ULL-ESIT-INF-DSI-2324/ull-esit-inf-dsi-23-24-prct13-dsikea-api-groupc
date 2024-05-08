@@ -3,10 +3,14 @@ import express from 'express';
 
 export const furnitureRouter = express.Router();
 
-// COMANDO EJECUCIÓN DB Y RUTAS:
-// sudo /home/usuario/dsi/13-dsikea/mongodb/bin/mongod --dbpath /home/usuario/dsi/13-dsikea/mongodb-data/
 
 //-------------------------------------------------------------- GET --------------------------------------------------------------//
+/**
+ * Method to get all furnitures or a specific furniture by name, description or color
+ * @param {string} name - The name of the furniture
+ * @param {string} description - The description of the furniture
+ * @param {string} color - The color of the furniture
+ */
 furnitureRouter.get('/furnitures', async (req, res) => {
   let filter = {}; 
   
@@ -42,7 +46,10 @@ furnitureRouter.get('/furnitures', async (req, res) => {
     res.status(500).send(err);
   }
 });
-
+/**
+ * Method to get a specific furniture by its id
+ * @param id - The id of the furniture
+ */
 furnitureRouter.get('/furnitures/:id', async (req, res) => {
   try {
     const furniture = await Furniture.findById(req.params.id);
@@ -58,6 +65,13 @@ furnitureRouter.get('/furnitures/:id', async (req, res) => {
 });
 
 //-------------------------------------------------------------- POST --------------------------------------------------------------//
+/**
+ * Method to create a new furniture
+ * @param {string} name - The name of the furniture
+ * @param {string} description - The description of the furniture
+ * @param {string} color - The color of the furniture
+ * @param {number} price - The price of the furniture
+ */
 furnitureRouter.post('/furnitures', async (req, res) => {
   const furniture = new Furniture(req.body);
   try {
@@ -69,6 +83,13 @@ furnitureRouter.post('/furnitures', async (req, res) => {
 });
 
 //-------------------------------------------------------------- PATCH --------------------------------------------------------------//
+/**
+ * Method to update a specific furniture by its name
+ * @param name - The name of the furniture
+ * @param {string} description - The description of the furniture
+ * @param {string} color - The color of the furniture
+ * @param {number} price - The price of the furniture
+ */
 furnitureRouter.patch('/furnitures', async (req, res) => {
   if (!req.query.name) {
     return res.status(400).send('Name is required');
@@ -93,6 +114,14 @@ furnitureRouter.patch('/furnitures', async (req, res) => {
   }
 });
 
+/**
+ * Method to update a specific furniture by its id
+ * @param id - The id of the furniture
+ * @param {string} name - The name of the furniture
+ * @param {string} description - The description of the furniture
+ * @param {string} color - The color of the furniture
+ * @param {number} price - The price of the furniture
+ */
 furnitureRouter.patch('/furnitures/:id', async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ['name', 'description', 'color', 'price'];
@@ -113,6 +142,10 @@ furnitureRouter.patch('/furnitures/:id', async (req, res) => {
 });
 
 //-------------------------------------------------------------- DELETE --------------------------------------------------------------//
+/**
+ * Method to delete a specific furniture by its name
+ * @param name - The name of the furniture
+ */
 furnitureRouter.delete('/furnitures', async (req, res) => {
   if (!req.query.name) {
     return res.status(400).send('Name is required');

@@ -3,8 +3,12 @@ import express from 'express';
 
 export const providerRouter = express.Router();
 
+/**
+ * Method to get a specific provider by its cif or id
+ * @param cif - The cif of the provider
+ * @param id - The id of the provider
+ */
 providerRouter.get('/providers', async (req, res) => {
-  // const filter = req.query.cif?{cif: req.query.cif.toString()}:{};
   let filter = {};
 
   if (req.query.cif) {
@@ -28,6 +32,10 @@ providerRouter.get('/providers', async (req, res) => {
   }
 });
 
+/**
+ * Method to get a specific provider by its id
+ * @param id - The id of the provider
+ */
 providerRouter.get('/providers/:id', async (req, res) => {
   try {
     const provider = await Provider.findById(req.params.id);
@@ -41,6 +49,14 @@ providerRouter.get('/providers/:id', async (req, res) => {
   }
 });
 
+/**
+ * Method to create a new provider
+ * @param name - The name of the provider
+ * @param cif - The cif of the provider
+ * @param email - The email of the provider
+ * @param mobilePhone - The mobile phone of the provider
+ * @param furniture - The furniture of the provider
+ */
 providerRouter.post('/providers', async (req, res) => {
   const provider = new Provider(req.body);
   try {
@@ -51,6 +67,10 @@ providerRouter.post('/providers', async (req, res) => {
   }
 });
 
+/**
+ * Method to update a provider by its cif
+ * @param cif - The cif of the provider
+ */
 providerRouter.patch('/providers', async (req, res) => {
   if (!req.query.cif) {
     return res.status(400).send({
@@ -87,13 +107,14 @@ providerRouter.patch('/providers', async (req, res) => {
   }
 });
 
+/**
+ * Method to update a provider by its id
+ * @param id - The id of the provider
+ */
 providerRouter.patch('/providers/:id', async (req, res) => {
   const allowedUpdates = ['name', 'email', 'mobilePhone', 'furniture'];
   const actualUpdates = Object.keys(req.body);
   const isValidUpdate = actualUpdates.every((update) => allowedUpdates.includes(update));
-
-  // Verifica que el stock si se cambia furniture sea 0
-
 
   if (!isValidUpdate) {
     return res.status(400).send({
@@ -107,12 +128,6 @@ providerRouter.patch('/providers/:id', async (req, res) => {
       runValidators: true
     });
 
-    // if(req.body.furniture.stock !== 0) {
-    //   return res.status(400).send({
-    //     error: 'Stock must be 0'
-    //   });
-    // }
-
     if (provider) {
       return res.send(provider);
     }
@@ -122,11 +137,19 @@ providerRouter.patch('/providers/:id', async (req, res) => {
   }
 });
 
+/**
+ * Method to delete a provider by its cif
+ * @param cif - The cif of the provider
+ */
 providerRouter.delete('/providers', async (req, res) => {
-  const filter = req.query.cif?{cif: req.query.cif.toString()}:{};
+  if (!req.query.cif) {
+    return res.status(400).send({
+      error: 'A cif must be provided',
+    });
+  }
 
   try {
-    const provider= await Provider.findOne(filter);
+    const provider = await Provider.findOne(req.query.cif.toString());
 
     if (!provider) {
       return res.status(404).send({
@@ -140,6 +163,10 @@ providerRouter.delete('/providers', async (req, res) => {
   }
 });
 
+/**
+ * Method to delete a provider by its id
+ * @param id - The id of the provider
+ */
 providerRouter.delete('/providers/:id', async (req, res) => {
   try {
     const provider = await Provider.findByIdAndDelete(req.params.id);

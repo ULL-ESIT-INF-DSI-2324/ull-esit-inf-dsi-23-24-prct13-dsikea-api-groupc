@@ -7,6 +7,10 @@ import { Provider } from '../models/provider.js';
 
 export const transactionRouter = express.Router();
 
+/**
+ * Method to get transactions by participantId
+ * @param participantId - The participantId to filter the transactions
+ */
 transactionRouter.get('/transactions', async (req, res) => {
   let filter = {};
   if (req.query.nif) {
@@ -28,6 +32,10 @@ transactionRouter.get('/transactions', async (req, res) => {
   }
 });
 
+/**
+ * Method to get transactions by the transaction ID
+ * @param id - The transaction ID to filter the transactions
+ */
 transactionRouter.get('/transactions/:id', async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
@@ -41,6 +49,10 @@ transactionRouter.get('/transactions/:id', async (req, res) => {
   }
 });
 
+/**
+ * Method to get transactions by the transaction type
+ * @param transactionType - The transaction type to filter the transactions
+ */
 transactionRouter.get('/transactions', async (req, res) => {
   const filter = req.query.transactionType?{transactionType: req.query.transactionType.toString()}:{};
   try {
@@ -54,6 +66,10 @@ transactionRouter.get('/transactions', async (req, res) => {
   }
 });
 
+/**
+ * Method to get transactions by the dateTime
+ * @param dateTime - The dateTime to filter the transactions
+ */
 transactionRouter.get('/transactions', async (req, res) => {
   const filter = req.query.dateTime?{dateTime: req.query.dateTime.toString()}:{};
   console.log("FILTER: ", filter);
@@ -68,8 +84,13 @@ transactionRouter.get('/transactions', async (req, res) => {
   }
 });
 
+/**
+ * Method to create a new transaction
+ * @param participantId - The participantId to filter the transactions
+ * @param transactionType - The transaction type to filter the transactions
+ * @param furniture - The furniture to filter the transactions
+ */
 transactionRouter.post('/transactions', async (req, res) => {
-  // Validate if the participantId exists
   const participantExists = await Customer.findById(req.body.participantId) || await Provider.findById(req.body.participantId);
   if (!participantExists) {
     return res.status(404).send({ error: 'Participant not found' });
@@ -153,6 +174,10 @@ transactionRouter.post('/transactions', async (req, res) => {
   
 });
 
+/**
+ * Method to delete a transaction by id
+ * @param id - The transaction ID to filter the transactions
+ */
 transactionRouter.delete('/transactions/:id', async (req, res) => {
   const filter = req.params.id?{id: req.params.id.toString()}:{};
 
@@ -227,7 +252,10 @@ transactionRouter.delete('/transactions/:id', async (req, res) => {
   }
 });
 
-
+/**
+ * Method to update a transaction by id
+ * @param id - The transaction ID to filter the transactions
+ */
 transactionRouter.patch('/transactions/:id', async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ['details', 'furniture'];

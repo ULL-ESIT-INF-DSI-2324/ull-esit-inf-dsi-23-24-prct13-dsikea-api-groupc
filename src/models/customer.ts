@@ -2,6 +2,11 @@ import { Document, Schema, model } from 'mongoose';
 import { FurnitureDocumentInterface } from './furniture.js';
 import validator from 'validator';
 
+/**
+ * Function to calcule the letter of the NIF
+ * @param nif 
+ * @returns 
+ */
 function calculateNIFLetter(nif) {
   let cadena = "TRWAGMYFPDXBNJZSQVHLCKET";
   nif = parseInt(nif);
@@ -9,6 +14,11 @@ function calculateNIFLetter(nif) {
   return cadena[posicion];
 }
 
+/**
+ * Function to validate the Spanish NIF
+ * @param value 
+ * @returns 
+ */
 function validateSpanishNIF(value: string): boolean {
   const validFormats = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i;
   if (!validFormats.test(value)) {
@@ -21,6 +31,15 @@ function validateSpanishNIF(value: string): boolean {
   return letterProvided === calculatedLetter;
 }
 
+/**
+ * Interface to model the Customer Schema.
+ * @interface CustomerDocumentInterface
+ * @param {string} name - The name of the customer.
+ * @param {string} nif - The NIF of the customer.
+ * @param {string} email - The email of the customer.
+ * @param {number} mobilePhone - The mobile phone of the customer.
+ * @param {Array<{furnitureId: FurnitureDocumentInterface, quantity: number}>} furniture - The furniture of the customer.
+ */
 export interface CustomerDocumentInterface extends Document {
   name: string,
   nif: string,
@@ -32,6 +51,10 @@ export interface CustomerDocumentInterface extends Document {
   }>;
 }
 
+/**
+ * Interface to model the Customer Schema.
+ * @interface CustomerDocumentInterface
+ */
 const CustomerSchema = new Schema<CustomerDocumentInterface>({
   name: {
     type: String,

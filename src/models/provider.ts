@@ -2,6 +2,15 @@ import { Document, Schema, model } from 'mongoose';
 import { FurnitureDocumentInterface } from './furniture.js';
 import validator from 'validator';
 
+/**
+ * Interface to model the Provider Schema.
+ * @interface ProviderDocumentInterface
+ * @param {string} name - The name of the provider.
+ * @param {string} cif - The CIF of the provider.
+ * @param {string} email - The email of the provider.
+ * @param {number} mobilePhone - The mobile phone of the provider.
+ * @param {Array<{furnitureId: FurnitureDocumentInterface, quantity: number}>} furniture - The furniture of the provider.
+ */
 export interface ProviderDocumentInterface extends Document {
   name: string,
   cif: string,
@@ -13,6 +22,15 @@ export interface ProviderDocumentInterface extends Document {
   }>;
 }
 
+/**
+ * Interface to model the Provider Schema.
+ * @interface ProviderDocumentInterface
+ * @param {string} name - The name of the provider.
+ * @param {string} cif - The CIF of the provider.
+ * @param {string} email - The email of the provider.
+ * @param {number} mobilePhone - The mobile phone of the provider.
+ * @param {Array<{furnitureId: FurnitureDocumentInterface, quantity: number}>} furniture - The furniture of the provider.
+ */
 const ProviderSchema = new Schema<ProviderDocumentInterface>({
   name: {
     type: String,

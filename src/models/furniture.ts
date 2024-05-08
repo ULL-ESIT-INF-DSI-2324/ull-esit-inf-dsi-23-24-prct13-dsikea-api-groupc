@@ -1,5 +1,14 @@
 import { Document, model, Schema } from 'mongoose';
 
+/**
+ * Interface to model the Furniture Schema.
+ * @interface FurnitureDocumentInterface
+ * @param {string} name - The name of the furniture.
+ * @param {string} description - The description of the furniture.
+ * @param {string} color - The color of the furniture.
+ * @param {number} price - The price of the furniture.
+ * @param {number} stock - The stock of the furniture.
+ */
 export interface FurnitureDocumentInterface extends Document {
   name: string,
   description: string,
@@ -7,7 +16,15 @@ export interface FurnitureDocumentInterface extends Document {
   price: number,
   stock: number,
 }
-
+/**
+ * Interface to model the Furniture Schema.
+ * @interface FurnitureDocumentInterface
+ * @param {string} name - The name of the furniture.
+ * @param {string} description - The description of the furniture.
+ * @param {string} color - The color of the furniture.
+ * @param {number} price - The price of the furniture.
+ * @param {number} stock - The stock of the furniture.
+ */
 const FurnitureSchema = new Schema<FurnitureDocumentInterface>({
   name: {
     type: String,
