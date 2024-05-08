@@ -110,6 +110,7 @@ describe('WORKFLOWS', () => {
       newFurniture = await Furniture.findById(newTransaction.body.furniture[0].furnitureId);
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
+      return;
     });
   });
 
@@ -210,7 +211,6 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
-      return;
     });
     it('Should return an error if the participant does not exist', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
@@ -241,6 +241,7 @@ describe('WORKFLOWS', () => {
       await request(app).delete(`/transactions/${newTransaction.body._id}`);
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
+      return;
     });
   });
 
@@ -266,6 +267,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
+      return;
     });
     it('Should return an error if the participant does not exist', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
@@ -289,6 +291,7 @@ describe('WORKFLOWS', () => {
       await request(app).delete(`/providers/${newProvider._id}`);
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
+      return;
     });
     it('Should return an error if the participant does not have the furniture', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
@@ -314,6 +317,7 @@ describe('WORKFLOWS', () => {
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(400);
       expect(deleteTransactionFail.body.error).to.equal(`Attempting to return a furniture the provider does not have!`);
+      return;
     });
   });
 
@@ -336,6 +340,7 @@ describe('WORKFLOWS', () => {
         }]
       });
       expect(updateTransaction.status).to.equal(200);
+      return;
     });
     it('Should return an error if the participant does not exist', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
