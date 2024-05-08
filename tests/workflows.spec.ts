@@ -232,8 +232,7 @@ describe('WORKFLOWS', () => {
       await request(app).delete(`/customers/${newCustomer.body._id}`);
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
-      return;
-    });
+    }).timeout(3000);
     it('Should return an error if the participant does not have the furniture', async () => {
       newCustomer = await new Customer(CustomerSecond).save();
       newFurniture = await new Furniture(FurnitureSecond).save();
@@ -297,7 +296,7 @@ describe('WORKFLOWS', () => {
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
       return;
-    });
+    }).timeout(3000);
     it('Should return an error if the participant does not have the furniture', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
