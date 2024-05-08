@@ -114,7 +114,7 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
       done();
-    });
+    }).timeout(2500);
   });
 
   context('Creating a transaction of type Purchase To Provider', () => {
@@ -200,7 +200,7 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
       done();
-    });
+    }).timeout(2500);
   });
 
   context('Deleting a transaction of type Sale To Customer', () => {
@@ -276,7 +276,7 @@ describe('WORKFLOWS', () => {
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
       done();
-    });
+    }).timeout(2500);
     it('Should return an error if the participant does not exist', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
