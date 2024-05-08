@@ -114,6 +114,7 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
       done();
+      return;
     });
   });
 
@@ -200,6 +201,7 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
       done();
+      return;
     });
   });
 
