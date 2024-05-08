@@ -192,6 +192,7 @@ describe('WORKFLOWS', () => {
       });
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
+      return;
     });
   });
 
@@ -209,6 +210,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
+      return;
     });
     it('Should return an error if the participant does not exist', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
