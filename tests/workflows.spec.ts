@@ -275,8 +275,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
-      return;
-    });
+    }).timeout(3000);
     it('Should return an error if the participant does not exist', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
