@@ -54,6 +54,7 @@ describe('WORKFLOWS', () => {
       };
       newTransaction = await request(app).post('/transactions').send(transactionjson);
       expect(newTransaction.status).to.equal(201);
+      return;
     });
     
     it('Should update the stock of the furniture to 2', async () => {
@@ -72,6 +73,7 @@ describe('WORKFLOWS', () => {
       // Load data from the database
       let furnitures = await Furniture.findById(newTransaction.body.furniture[0].furnitureId);
       expect(furnitures!.stock).to.equal(2);
+      return;
     });
     it('Should return the correct amount to 150', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
@@ -85,8 +87,9 @@ describe('WORKFLOWS', () => {
         }]
       });
       expect(newTransaction.body.totalAmount).to.equal(150);
+      return;
     });
-    it('If I attempt to create a transaction with a stock of 0, it should return an error', async () => {
+    it('If I attempt to create a transaction with a stock of 0, it should return an error', async (done) => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
       newFurniture = await request(app).post('/furnitures').send(FurnitureSecond);
       transactionjson = {
@@ -110,7 +113,7 @@ describe('WORKFLOWS', () => {
       newFurniture = await Furniture.findById(newTransaction.body.furniture[0].furnitureId);
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
-      return;
+      done();
     });
   });
 
@@ -127,6 +130,7 @@ describe('WORKFLOWS', () => {
         }]
       });
       expect(newTransactionFail.status).to.equal(400);
+      return;
     });
    
     it('Should update the stock of the furniture to 10', async () => {
@@ -150,6 +154,7 @@ describe('WORKFLOWS', () => {
       });
       newFurniture = await Furniture.findById(newFurniture._id);
       expect(newFurniture.stock).to.equal(10);
+      return;
     });
     it('Should return the correct amount to 250', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
@@ -171,8 +176,9 @@ describe('WORKFLOWS', () => {
         }]
       });
       expect(newTransaction.body.totalAmount).to.equal(250);
+      return;
     });
-    it('If I attempt to create a transaction and the provider does not have the furniture, it should return an error', async () => {
+    it('If I attempt to create a transaction and the provider does not have the furniture, it should return an error', async (done) => {
       transactionjson = {
         participantId: newProvider._id,
         transactionType: "Purchase To Provider",
@@ -193,7 +199,7 @@ describe('WORKFLOWS', () => {
       });
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
-      return;
+      done();
     });
   });
 
@@ -211,6 +217,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
+      return;
     });
     it('Should return an error if the participant does not exist', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
@@ -226,6 +233,7 @@ describe('WORKFLOWS', () => {
       await request(app).delete(`/customers/${newCustomer.body._id}`);
       const deleteTransactionFail = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransactionFail.status).to.equal(404);
+      return;
     });
     it('Should return an error if the participant does not have the furniture', async () => {
       newCustomer = await new Customer(CustomerSecond).save();
