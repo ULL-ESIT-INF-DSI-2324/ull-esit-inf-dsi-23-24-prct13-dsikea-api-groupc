@@ -114,7 +114,6 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
       done();
-      return;
     });
   });
 
@@ -201,7 +200,6 @@ describe('WORKFLOWS', () => {
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
       done();
-      return;
     });
   });
 
@@ -256,7 +254,7 @@ describe('WORKFLOWS', () => {
   });
 
   context('Deleting a transaction of type Purchase To Provider', () => {
-    it('Should delete the transaction', async () => {
+    it('Should delete the transaction', async (done) => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
         name: "Carlos III",
@@ -277,7 +275,7 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
-      return;
+      done();
     });
     it('Should return an error if the participant does not exist', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
