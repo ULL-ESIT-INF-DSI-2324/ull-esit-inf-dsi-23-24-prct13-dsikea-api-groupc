@@ -149,7 +149,7 @@ providerRouter.delete('/providers', async (req, res) => {
   }
 
   try {
-    const provider = await Provider.findOne(req.query.cif.toString());
+    const provider = await Provider.findOne({cif: req.query.cif.toString()});
 
     if (!provider) {
       return res.status(404).send({
