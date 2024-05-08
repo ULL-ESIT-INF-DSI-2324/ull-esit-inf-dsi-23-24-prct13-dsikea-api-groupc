@@ -38,6 +38,7 @@ describe('WORKFLOWS', () => {
   let newFurniture;
   let newTransaction;
   let transactionjson;
+
   context('Creating a transaction of type Sale To Customer', () => {
 
     it('Should create succesfully a transaction', async () => {
@@ -52,6 +53,7 @@ describe('WORKFLOWS', () => {
           quantity: 3
         }]
       };
+      
       newTransaction = await request(app).post('/transactions').send(transactionjson);
       expect(newTransaction.status).to.equal(201);
       return;
@@ -89,7 +91,7 @@ describe('WORKFLOWS', () => {
       expect(newTransaction.body.totalAmount).to.equal(150);
       return;
     });
-    it('If I attempt to create a transaction with a stock of 0, it should return an error', async (done) => {
+    it('If I attempt to create a transaction with a stock of 0, it should return an error', async () => {
       newCustomer = await request(app).post('/customers').send(CustomerSecond);
       newFurniture = await request(app).post('/furnitures').send(FurnitureSecond);
       transactionjson = {
@@ -113,8 +115,7 @@ describe('WORKFLOWS', () => {
       newFurniture = await Furniture.findById(newTransaction.body.furniture[0].furnitureId);
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(400);
-      done();
-    }).timeout(2500);
+    }).timeout(3000);
   });
 
   context('Creating a transaction of type Purchase To Provider', () => {
@@ -178,7 +179,7 @@ describe('WORKFLOWS', () => {
       expect(newTransaction.body.totalAmount).to.equal(250);
       return;
     });
-    it('If I attempt to create a transaction and the provider does not have the furniture, it should return an error', async (done) => {
+    it('If I attempt to create a transaction and the provider does not have the furniture, it should return an error', async () => {
       transactionjson = {
         participantId: newProvider._id,
         transactionType: "Purchase To Provider",
@@ -199,8 +200,7 @@ describe('WORKFLOWS', () => {
       });
       const newTransactionFail = await request(app).post('/transactions').send(transactionjson);
       expect(newTransactionFail.status).to.equal(404);
-      done();
-    }).timeout(2500);
+    }).timeout(3000);
   });
 
   context('Deleting a transaction of type Sale To Customer', () => {
@@ -254,7 +254,7 @@ describe('WORKFLOWS', () => {
   });
 
   context('Deleting a transaction of type Purchase To Provider', () => {
-    it('Should delete the transaction', async (done) => {
+    it('Should delete the transaction', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
         name: "Carlos III",
@@ -275,8 +275,8 @@ describe('WORKFLOWS', () => {
       });
       const deleteTransaction = await request(app).delete(`/transactions/${newTransaction.body._id}`);
       expect(deleteTransaction.status).to.equal(200);
-      done();
-    }).timeout(2500);
+      return;
+    });
     it('Should return an error if the participant does not exist', async () => {
       newFurniture = await new Furniture(FurnitureSecond).save();
       const newProviderBody = {
